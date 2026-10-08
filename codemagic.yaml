@@ -8,12 +8,12 @@ workflows:
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.enyotsankov.bouncara
+        bundle_identifier: com.haroldcolbert.bouncana
       vars:
-        BUNDLE_ID: com.enyotsankov.bouncara
+        BUNDLE_ID: com.haroldcolbert.bouncana
         XCODE_PROJECT: "SerenityRun.xcodeproj"
         XCODE_SCHEME: "SerenityRun"
-        APP_STORE_APPLE_ID: 6819668392
+        APP_STORE_APPLE_ID: 6820102054
       xcode: latest
     scripts:
       - name: Set up provisioning profiles settings on Xcode project
