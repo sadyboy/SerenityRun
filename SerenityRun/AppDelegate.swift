@@ -18,9 +18,9 @@ extension AppDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         OneSignal.initialize("a27f8be1-77d9-455b-a193-bfa9589f8ee5", withLaunchOptions: launchOptions)
         
-        OneSignal.Notifications.requestPermission({ accepted in
-            print("User accepted notifications: \(accepted)")
-        })
+//        OneSignal.Notifications.requestPermission({ accepted in
+//            print("User accepted notifications: \(accepted)")
+//        })
         return true
     }
     

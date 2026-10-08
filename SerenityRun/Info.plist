@@ -19,6 +19,8 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use tracking to provide personalized ads and improve your experience.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

@@ -1,6 +1,51 @@
 {
-  "originHash" : "fe10aafbaf409842f476e8822e8d586ae13fa97ca251345350315549123c6d78",
+  "originHash" : "5ef03f5b14b2638589d1ea136cd6e2393d51bf9cb36a1ec00ca0ec9f0b0b9238",
   "pins" : [
+    {
+      "identity" : "adjust_signature_sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adjust/adjust_signature_sdk.git",
+      "state" : {
+        "revision" : "e3d405e813d35d50bb2be35d59b8659527fe37dc",
+        "version" : "5.0.0"
+      }
+    },
+    {
+      "identity" : "google-ads-on-device-conversion-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk.git",
+      "state" : {
+        "revision" : "0208e2681ec81f8a9c81084696f60fcce26cb7ee",
+        "version" : "3.7.0"
+      }
+    },
+    {
+      "identity" : "googleutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google/GoogleUtilities.git",
+      "state" : {
+        "revision" : "cc31f5ed464b111f877ce8554cbef4455d410d91",
+        "version" : "8.1.4"
+      }
+    },
+    {
+      "identity" : "ios_sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adjust/ios_sdk",
+      "state" : {
+        "branch" : "master",
+        "revision" : "06aaed8bbee099d545c74bf3101b6bcffb9d2791"
+      }
+    },
+    {
+      "identity" : "nanopb",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/firebase/nanopb.git",
+      "state" : {
+        "revision" : "3851d94a41890dea16dc3db34caf60e585cb4163",
+        "version" : "2.30910.1"
+      }
+    },
     {
       "identity" : "onesignal-xcframework",
       "kind" : "remoteSourceControl",
