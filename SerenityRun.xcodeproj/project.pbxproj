@@ -281,12 +281,14 @@
 				CODE_SIGN_ENTITLEMENTS = SerenityRun/SerenityRun.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SerenityRun/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bouncana;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to allow you to take profile pictures and update your avatar.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "The app needs access to your gallery to select images.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We use tracking to provide personalized ads and improve your experience.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -297,7 +299,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.haroldcolbert.bouncana;
+				PRODUCT_BUNDLE_IDENTIFIER = com.enyotsankov.bouncara;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -321,12 +323,14 @@
 				CODE_SIGN_ENTITLEMENTS = SerenityRun/SerenityRun.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SerenityRun/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bouncana;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to allow you to take profile pictures and update your avatar.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "The app needs access to your gallery to select images.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We use tracking to provide personalized ads and improve your experience.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -337,7 +341,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.haroldcolbert.bouncana;
+				PRODUCT_BUNDLE_IDENTIFIER = com.enyotsankov.bouncara;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

